@@ -1,69 +1,134 @@
 # BoundaryLab — Conditional Adoption Intelligence
 
-> **Not will they use it. Under what conditions?**
+> **The more useful question is not whether someone will adopt a service, but under what conditions they will.**
 
-A research-inspired, testable **product discovery and operations decision laboratory** based on the conditional-acceptance insight reported in Salonee Shrigandhamurthy's MSc dissertation application materials. Built as a standalone interactive web app with reproducible synthetic data, rule-based eligibility, scenario economics, constrained optimisation, an A/B-test planner and research-to-requirement traceability.
+BoundaryLab is an interactive product-research and decision-modelling system focused on **conditional adoption in rapid-delivery services**. It translates qualitative consumer-behaviour insights into testable product rules, operational scenarios, commercial trade-offs and experiment plans.
 
-**Important:** The original dissertation and anonymised interview transcripts were not provided. The project contains **zero real respondents**; all 1,200 profiles, segmentation patterns, numerical preference thresholds and commercial outcomes are **synthetic and illustrative**. Do not present its conversion percentages as original research findings.
+The conceptual research basis is an MSc Management study of quick-commerce adoption, which found that acceptance can depend on the product category, ordering context and ethical expectations rather than a single universal preference. BoundaryLab explores those principles computationally through a separate, reproducible scenario model.
 
-## Run it
+![BoundaryLab research and decision workspace](media/overview.png)
 
-**Zero setup:** Open `BoundaryLab_Standalone.html` from the distributed package in Chrome or Edge. It contains the entire app, including styling and synthetic data.
+## System overview
 
-**GitHub Pages / development:** `index.html` loads `assets/styles.css`, `src/engine.mjs`, `src/app.mjs` and `src/data.mjs`. To serve locally:
+The application supports seven connected analytical workspaces:
+
+| Workspace | Function |
+|---|---|
+| **Overview** | Present the research problem, decision framework and headline scenario metrics. |
+| **Conditional adoption** | Evaluate category, context and policy constraints through a first-failed-rule waterfall. |
+| **Offer & policy lab** | Adjust delivery fee, estimated delivery time, ordering setting, product category and courier-treatment rules. |
+| **Decision frontier** | Compare up to 126 feasible offer configurations under multiple objectives. |
+| **Experiment planner** | Turn hypotheses into measurable A/B-test designs and approximate sample-size requirements. |
+| **Evidence to roadmap** | Connect qualitative insights to product hypotheses, acceptance criteria and proposed metrics. |
+| **Methods** | Explain model assumptions, research provenance and the decision logic. |
+
+![Policy and offer simulator](media/policy.png)
+
+## Analytical approach
+
+### 1. Conditional eligibility
+
+Instead of predicting adoption from a single aggregate score, the model evaluates hard requirements first. A fictional customer profile can reject an offer because its category, purchase context or courier policy does not meet that profile's conditions.
+
+### 2. Offer attractiveness
+
+Only eligible offers proceed to fee, delivery-time and product-preference evaluation. The model supports heterogeneous thresholds and trade-offs across profiles.
+
+### 3. Product and operational trade-offs
+
+The scenario engine explores interest, contribution assumptions and policy constraints across multiple offer configurations. The decision frontier highlights options worth investigating rather than prescribing one universally optimal product.
+
+### 4. Experiment design
+
+The A/B-test planner translates proposed changes into hypotheses, success metrics, guardrail metrics, effect-size assumptions and approximate sample-size calculations. No live experiments are represented as completed.
+
+### 5. Research-to-requirements traceability
+
+The evidence register links observed qualitative themes to product questions, testable rules, decision criteria and suggested next research steps.
+
+## Data foundations
+
+The research framing draws on reported findings from an MSc qualitative study involving **11 interviews** and analysis of rapid-delivery preferences. The motivating insight is **conditional acceptance**—different people may be comfortable with different categories, contexts and courier-treatment conditions.
+
+The computational dataset is **synthetic**:
+
+- **1,200 simulated customer profiles**, deterministically generated from documented assumptions.
+- Illustrative eligibility rules, segmentation features and preference thresholds.
+- Model-generated interest rates and business economics; these are **scenario outputs**, not measured customer conversion.
+- No original interview transcripts, participant-level research data or actual platform transaction records are included.
+
+This separation allows the decision model to be reproduced without presenting fictional customers as research participants.
+
+## Run locally
+
+### Web application
+
+For local development, start a simple static HTTP server from the repository root:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Visit `http://localhost:8000` in a browser. Requires no Node packages, database, paid APIs or logins.
+Then visit [http://localhost:8000](http://localhost:8000).
 
-## Workspaces
+The application is built with standard browser JavaScript modules and CSS. No database, API keys, Node package installation or paid services are needed.
 
-| Workspace | Capability | What it demonstrates |
-|---|---|---|
-| Project overview | Question reframing + scenario KPIs | Research synthesis and caveated decision reporting |
-| Conditional adoption | First-failed-rule waterfall and fictional segment explorer | Segmentation limits, guardrails and heterogeneous preferences |
-| Offer & policy lab | Fee/ETA/context/category/courier settings | Product economics and scenario sensitivity |
-| Decision frontier | Enumerate up to 126 candidate offers | Constrained multi-objective decision analysis |
-| Experiment planner | Approximate A/B-test sample size and instrumentation | Hypothesis validation and causal inference discipline |
-| Evidence to roadmap | Reported evidence → hypotheses → metrics | Requirements traceability without fabricating qualitative evidence |
-| Methods & limitations | Provenance, limitations, ethics | Transparent, reproducible decision science |
+### Regenerate data and bundled distribution
 
-## Test and regenerate
+```bash
+python3 scripts/make_panel.py
+python3 scripts/bundle.py
+```
+
+### Run checks
 
 ```bash
 node --test tests/*.test.mjs
 python3 scripts/audit_dataset.py
 python3 -m pytest -q tests/test_data.py
-python3 scripts/make_panel.py
-python3 scripts/bundle.py
 ```
 
-No npm dependency installation is required. The optional Python test suite needs `pytest`.
+The Python test command uses the optional `pytest` package. GitHub Actions runs the configured automated checks.
 
-## Ethical source discipline
+## Implementation
 
-- **Reported, not independently verified here:** 11 qualitative interviews; conditional acceptance by category, context and ethical treatment; six identified themes; NVivo/Braun and Clarke methodology. Source: user's provided CV and application-writing materials, not the dissertation itself.
-- **Proposed:** requirement backlog, operational guardrails and A/B-test plan.
-- **Synthetic:** fictional personas, segmentation patterns, pricing thresholds, commercial economics, demand/interest rates and optimised configurations.
+```text
+Qualitative research insight
+             │
+             ▼
+     Research-to-rule model
+             │
+             ▼
+ Seeded synthetic customer profiles
+             │
+             ▼
+  Eligibility + preference engine
+             │
+        ┌────┴─────┐
+        ▼          ▼
+ Offer/policy   Experiment
+ optimisation   planning
+        │          │
+        └────┬─────┘
+             ▼
+ Interactive evidence and decision interface
+```
 
-A customer-research case study is not improved by inventing interview quotes, participant percentages, demographic statistics or false experimental results. BoundaryLab intentionally omits all of them.
+- **Frontend:** HTML, CSS and JavaScript ES modules.
+- **Core modelling:** modular deterministic eligibility and scenario logic.
+- **Dataset generation:** seeded Python panel generator and audit script.
+- **Decision analysis:** constrained offer enumeration and scenario comparisons.
+- **Verification:** 20 JavaScript tests plus Python dataset checks and browser interaction testing.
 
-## Documentation
+## Technical documentation
 
-- [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) — story and product case study.
-- [`docs/PRODUCT_REQUIREMENTS.md`](docs/PRODUCT_REQUIREMENTS.md) — proposed PRD and acceptance criteria.
-- [`docs/EXPERIMENT_PLAN.md`](docs/EXPERIMENT_PLAN.md) — pre-registered experiment template.
-- [`docs/METHODS.md`](docs/METHODS.md) — exact modelling rules and assumptions.
-- [`docs/INTERVIEW_WALKTHROUGH.md`](docs/INTERVIEW_WALKTHROUGH.md) — candidate demo and interview defence.
+- [Research-to-product case study](docs/CASE_STUDY.md)
+- [Product requirements and acceptance criteria](docs/PRODUCT_REQUIREMENTS.md)
+- [Experiment design](docs/EXPERIMENT_PLAN.md)
+- [Model definitions and assumptions](docs/METHODS.md)
 
-## Reproducibility and CI
+## Research and data principles
 
-Code is split into a pure JS engine, simple frontend, a seeded Python synthetic data generator and 20 Node.js tests plus Python data checks. `.github/workflows/check.yml` runs the tests on every proposed change.
+BoundaryLab distinguishes **qualitative research insight**, **formulated product hypotheses** and **synthetic model outputs**. The reported themes motivate the design, while numerical scenario results are generated by the application.
 
-## Attribution and appropriate portfolio use
-
-**Prepared as an AI-assisted implementation for Salonee's portfolio.** Publishing it does not demonstrate that Salonee independently authored the source. Before claiming personal technical proficiency, she should inspect, rerun, improve and be able to defend the analysis, with a clear statement of her specific contributions. Do not include participant-level dissertation data without appropriate explicit permissions.
-
-No paid services or data-sharing permissions are required for the standalone demonstration. This repo is designed for GitHub Pages, but is **not yet published to any GitHub account**.
+Research participants are not represented by the simulated profiles. No interview quotations, participant demographics or historical conversion figures are inferred from the model.
