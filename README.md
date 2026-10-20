@@ -1,86 +1,104 @@
 # BoundaryLab — Conditional Adoption Intelligence
 
-> **The more useful question is not whether someone will adopt a service, but under what conditions they will.**
+**Consumer research · product analytics · operational decision modelling · experimentation**
 
-BoundaryLab is an interactive product-research and decision-modelling system focused on **conditional adoption in rapid-delivery services**. It translates qualitative consumer-behaviour insights into testable product rules, operational scenarios, commercial trade-offs and experiment plans.
+> **The question is not simply whether a customer will adopt a service, but under what conditions.**
 
-The conceptual research basis is an MSc Management study of quick-commerce adoption, which found that acceptance can depend on the product category, ordering context and ethical expectations rather than a single universal preference. BoundaryLab explores those principles computationally through a separate, reproducible scenario model.
+BoundaryLab examines the conditions that shape consumer acceptance of quick-commerce and rapid-delivery services. The system connects qualitative research insights with an interactive rules engine, product-offer evaluation, operational economics and experimental design.
 
-![BoundaryLab research and decision workspace](media/overview.png)
+Its research framing draws on an MSc Management study of quick-commerce adoption, including 11 qualitative interviews. The central insight is that acceptance varies by product category, purchasing context and expectations around courier treatment. BoundaryLab translates these dimensions into explicit decision rules that can be explored, tested and refined.
 
-## System overview
+![BoundaryLab overview](media/overview.png)
 
-The application supports seven connected analytical workspaces:
+## Functional modules
 
-| Workspace | Function |
+| Module | Purpose |
 |---|---|
-| **Overview** | Present the research problem, decision framework and headline scenario metrics. |
-| **Conditional adoption** | Evaluate category, context and policy constraints through a first-failed-rule waterfall. |
-| **Offer & policy lab** | Adjust delivery fee, estimated delivery time, ordering setting, product category and courier-treatment rules. |
-| **Decision frontier** | Compare up to 126 feasible offer configurations under multiple objectives. |
-| **Experiment planner** | Turn hypotheses into measurable A/B-test designs and approximate sample-size requirements. |
-| **Evidence to roadmap** | Connect qualitative insights to product hypotheses, acceptance criteria and proposed metrics. |
-| **Methods** | Explain model assumptions, research provenance and the decision logic. |
+| **Research overview** | Connect the central adoption question to measurable product and operational decisions. |
+| **Conditional adoption** | Trace category, context, service-policy, price and reliability requirements through an eligibility waterfall. |
+| **Offer & policy lab** | Adjust fees, delivery windows, ordering situations, product categories and courier-protection settings. |
+| **Decision frontier** | Compare up to 126 offer configurations under competing product and commercial objectives. |
+| **Experiment planner** | Define A/B-test hypotheses, measurement plans, guardrails and approximate sample sizes. |
+| **Evidence to roadmap** | Connect research insights to product requirements, testable hypotheses and decision criteria. |
+| **Methods** | Explain eligibility logic, weighting, calculations and reproducibility. |
 
-![Policy and offer simulator](media/policy.png)
+![Offer and policy analysis](media/policy.png)
 
-## Analytical approach
+## Analytical workflow
 
-### 1. Conditional eligibility
+### Conditional eligibility
 
-Instead of predicting adoption from a single aggregate score, the model evaluates hard requirements first. A fictional customer profile can reject an offer because its category, purchase context or courier policy does not meet that profile's conditions.
+The evaluation begins with explicit category, purchasing-context and service-policy conditions. Offers must satisfy those requirements before price, delivery time and reliability are evaluated.
 
-### 2. Offer attractiveness
+### Offer evaluation
 
-Only eligible offers proceed to fee, delivery-time and product-preference evaluation. The model supports heterogeneous thresholds and trade-offs across profiles.
+For eligible cases, the engine computes a preference score using configurable fee, timing, service-quality and operational inputs. The resulting metrics can be compared across multiple configurations.
 
-### 3. Product and operational trade-offs
+### Operational decision analysis
 
-The scenario engine explores interest, contribution assumptions and policy constraints across multiple offer configurations. The decision frontier highlights options worth investigating rather than prescribing one universally optimal product.
+The decision engine evaluates candidate service offers, compares their estimated commercial contribution and identifies non-dominated options. This produces a structured basis for comparing policy choices.
 
-### 4. Experiment design
+### Experiment design
 
-The A/B-test planner translates proposed changes into hypotheses, success metrics, guardrail metrics, effect-size assumptions and approximate sample-size calculations. No live experiments are represented as completed.
+The experiment planner connects a proposed product change to its hypothesis, primary measurement, guardrail metrics and indicative sample requirements. It is designed for planning future validation work.
 
-### 5. Research-to-requirements traceability
+### Research traceability
 
-The evidence register links observed qualitative themes to product questions, testable rules, decision criteria and suggested next research steps.
+An evidence-to-roadmap layer ties qualitative adoption themes to requirements, analytical rules and proposed product decisions.
 
-## Data foundations
+## Data and research basis
 
-The research framing draws on reported findings from an MSc qualitative study involving **11 interviews** and analysis of rapid-delivery preferences. The motivating insight is **conditional acceptance**—different people may be comfortable with different categories, contexts and courier-treatment conditions.
+The research themes originate from the reported qualitative study. The application’s **1,200 computational profiles are generated reproducibly by `scripts/make_panel.py`** as inputs to its analytical engine; they are **not individual interview records**. Quantitative outputs are calculated by the model and are not presented as observed customer-conversion measurements.
 
-The computational dataset is **synthetic**:
+No identifying interview transcripts or participant-level research records are stored in this repository.
 
-- **1,200 simulated customer profiles**, deterministically generated from documented assumptions.
-- Illustrative eligibility rules, segmentation features and preference thresholds.
-- Model-generated interest rates and business economics; these are **scenario outputs**, not measured customer conversion.
-- No original interview transcripts, participant-level research data or actual platform transaction records are included.
+## Implementation
 
-This separation allows the decision model to be reproduced without presenting fictional customers as research participants.
+- **Frontend:** HTML, CSS and JavaScript ES modules.
+- **Decision engine:** rule-based eligibility and preference calculations.
+- **Data preparation:** seeded Python data-generation workflow.
+- **Analytics:** multi-objective comparison, commercial calculations and sample-size planning.
+- **Verification:** 20 JavaScript tests, Python data checks and browser interaction tests.
+- **Delivery:** local web application with no paid dependencies or external API keys.
 
-## Run locally
+```text
+Research insights
+       │
+       ▼
+Research-to-rule mapping
+       │
+       ▼
+Reproducible computational panel
+       │
+       ▼
+Eligibility and preference engine
+       │
+       ├──────► Offer and policy analysis
+       ├──────► Decision frontier
+       └──────► Experiment planning
+                       │
+                       ▼
+              Evidence and reporting
+```
 
-### Web application
+## Running the application
 
-For local development, start a simple static HTTP server from the repository root:
+Run a local web server from the repository root:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit [http://localhost:8000](http://localhost:8000).
+Open `http://localhost:8000` in a browser. The interactive application uses native JavaScript modules and does not require a database or a Node package installation.
 
-The application is built with standard browser JavaScript modules and CSS. No database, API keys, Node package installation or paid services are needed.
-
-### Regenerate data and bundled distribution
+### Regenerating data and bundle
 
 ```bash
 python3 scripts/make_panel.py
 python3 scripts/bundle.py
 ```
 
-### Run checks
+### Tests and quality checks
 
 ```bash
 node --test tests/*.test.mjs
@@ -88,47 +106,11 @@ python3 scripts/audit_dataset.py
 python3 -m pytest -q tests/test_data.py
 ```
 
-The Python test command uses the optional `pytest` package. GitHub Actions runs the configured automated checks.
+The optional Python test suite uses `pytest`. GitHub Actions runs the repository's configured automated checks.
 
-## Implementation
+## Documentation
 
-```text
-Qualitative research insight
-             │
-             ▼
-     Research-to-rule model
-             │
-             ▼
- Seeded synthetic customer profiles
-             │
-             ▼
-  Eligibility + preference engine
-             │
-        ┌────┴─────┐
-        ▼          ▼
- Offer/policy   Experiment
- optimisation   planning
-        │          │
-        └────┬─────┘
-             ▼
- Interactive evidence and decision interface
-```
-
-- **Frontend:** HTML, CSS and JavaScript ES modules.
-- **Core modelling:** modular deterministic eligibility and scenario logic.
-- **Dataset generation:** seeded Python panel generator and audit script.
-- **Decision analysis:** constrained offer enumeration and scenario comparisons.
-- **Verification:** 20 JavaScript tests plus Python dataset checks and browser interaction testing.
-
-## Technical documentation
-
-- [Research-to-product case study](docs/CASE_STUDY.md)
-- [Product requirements and acceptance criteria](docs/PRODUCT_REQUIREMENTS.md)
-- [Experiment design](docs/EXPERIMENT_PLAN.md)
-- [Model definitions and assumptions](docs/METHODS.md)
-
-## Research and data principles
-
-BoundaryLab distinguishes **qualitative research insight**, **formulated product hypotheses** and **synthetic model outputs**. The reported themes motivate the design, while numerical scenario results are generated by the application.
-
-Research participants are not represented by the simulated profiles. No interview quotations, participant demographics or historical conversion figures are inferred from the model.
+- [Research and product case study](docs/CASE_STUDY.md)
+- [Product requirements](docs/PRODUCT_REQUIREMENTS.md)
+- [Experiment plan](docs/EXPERIMENT_PLAN.md)
+- [Technical methods](docs/METHODS.md)
