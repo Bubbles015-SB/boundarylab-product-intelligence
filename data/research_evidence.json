@@ -1,0 +1,14 @@
+{
+  "provenance": "Summaries of Salonee's MSc research appearing in provided CV and cover-letter materials, NOT the primary dissertation or participant transcripts.",
+  "study_status": "Secondary synopsis only; verify wording against the original dissertation before presenting this as primary research evidence.",
+  "interviews_reported": 11,
+  "survey_details": "A survey is mentioned in supplied application material; no instrument, respondent count or responses are available here.",
+  "claims": [
+    {"id":"E01","statement":"Acceptance of rapid grocery delivery was reported as conditional rather than a simple yes/no decision.","evidence_level":"Reported qualitative summary","unsupported":"Cannot quantify prevalence or extrapolate to UK consumers."},
+    {"id":"E02","statement":"Product category appeared as a condition shaping acceptance.","evidence_level":"Reported qualitative summary","unsupported":"No category-level frequency estimates or item-level preference data are supplied."},
+    {"id":"E03","statement":"Acceptability varied by context, including at home versus at work.","evidence_level":"Reported qualitative summary","unsupported":"Cannot assert a universal home/work preference."},
+    {"id":"E04","statement":"Treatment of delivery couriers formed an ethical ceiling for some interviewees.","evidence_level":"Reported qualitative summary","unsupported":"No numeric ethical threshold was measured in the available material."},
+    {"id":"E05","statement":"Geography was one of the reported considerations in the dissertation's product requirements.","evidence_level":"Reported project CV synopsis","unsupported":"Specific geographic differences or measured impacts are not supplied."},
+    {"id":"E06","statement":"The dissertation materials describe six requirement themes developed using Braun and Clarke thematic analysis in NVivo.","evidence_level":"Reported project CV synopsis","unsupported":"The six original theme labels, coding tree and anonymised extracts were not supplied."}
+  ]
+}
